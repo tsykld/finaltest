@@ -1,0 +1,30 @@
+.username {
+    margin-bottom: 20px;
+}
+.username input {
+    width: 16rem;
+}
+.password input {
+    width: 16rem;
+}
+.register-button {
+    padding: 0 100px 0 100px;
+}
+.mr-20 {
+    margin-top: 80px;
+}
+.image {
+    max-width: 87%;
+    height: 320px;
+    border-radius: 25px;
+}
+.avatar {
+    width: 180px;
+    height: 180px;
+    left: 100px;
+    bottom: 60px;
+    margin-right: 130px;
+}
+
+
+

@@ -1,24 +1,26 @@
-import logo from './logo.svg';
-import './App.css';
+
+import { NextUIProvider } from '@nextui-org/react';
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom'
+import 'tailwindcss/tailwind.css';
+import './index.css';
+import LoginForm from './components/userauthen';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import HomePage from './components/homepage';
 
 function App() {
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <NextUIProvider>
+      <NextThemesProvider attribute="class">
+         <Router>
+            <Routes>
+                <Route path='/' element={ <LoginForm /> } />
+                <Route path='/homepage' element={ <HomePage /> } />
+            </Routes>
+        </Router>
+      </NextThemesProvider>     
+    </NextUIProvider>
   );
 }
 
