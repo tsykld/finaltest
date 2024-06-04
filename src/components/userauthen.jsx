@@ -1,41 +1,35 @@
+// userauthen.jsx
+
 import { Input, Button, Link } from "@nextui-org/react";
 import { Card } from "@nextui-org/react";
 import './fb.css'
 import '../index.css'
 import { useState } from "react";
-import axios from "axios";
+import { useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { EyeFilledIcon } from "./icon/EyeFilledIcon";
 import { EyeSlashFilledIcon } from "./icon/EyeSlashFilledIcon";
 
 
+
 export default function LoginForm() {
 
-    const { register , handleSubmit, setError, formState: {errors} } = useForm();
+    const { register , handleSubmit, formState: {errors} } = useForm();
     const [value, setValue] = useState("");
     const [password, setPassword] = useState('');
     const [isVisible, setIsVisible] = useState(false);
     const navigate = useNavigate();
 
-   /* const fetchUser = async (data) => {
-        try {
-            const response = await axios.get('https://dustin-social.onrender.com/users');
-            const user = response.data;
-            
-            if (user.username === data.username && user.password === data.password) {
-                
-            } 
-        } catch (err) {
-            setError("general", {
-                type: "manual",
-                message: "ID hoặc mật khẩu không đúng. Vui lòng thử lại."
-            });
-        }
-    }*/
+    const validateEmail = (value) => value.match(/^(\S+@\S+\.\S+|\d{10,11})$/);
+
+    const isInvalid = useMemo(() => {
+        if (value === "") return false;
+
+        return validateEmail(value) ? false : true;
+    }, [value]);
 
     const onSubmit = data => {
-        // fetchUser(data)
         navigate('/homepage')
         console.log(data);
     }
@@ -55,15 +49,17 @@ export default function LoginForm() {
                 <div className='username mx-auto'>
                     <Input 
                         {...register('username', {
-                            required: "Vui lòng nhập ID của bạn",
+                            required: "Vui lòng nhập email hoặc số điện thoại của bạn",
                         })}
-                        placeholder="ID"
+                        placeholder="Email hoặc số điện thoại"
                         variant="bordered"
                         isClearable
                         onClear={() => setValue('')}
                         value={value}
+                        isInvalid={isInvalid}
                         onChange={(e) => setValue(e.target.value)}
                         color={errors.username ? "danger" : "default"}
+                        errorMessage={isInvalid && "Vui lòng nhập email hoặc số điện thoại hợp lệ"}
                         fullWidth
                         className="max-w-sm mx-auto"
                     />
@@ -86,9 +82,9 @@ export default function LoginForm() {
                             password && (
                                 <button className="focus:outline-none" type="button" onClick={toggleVisibility}>
                                     {isVisible ? (
-                                        <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                        <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                                         ) : (
-                                        <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+                                        <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none flex-shrink-0" />
                                         )}
                                 </button>
                              )
@@ -115,11 +111,11 @@ export default function LoginForm() {
 
                 <hr className="w-48 h-px mx-auto bg-gray-300 border-0 rounded my-3"></hr>
 
-                <Button className='max-w-40 mx-auto mt-3 text-white font-bold bg-green-600'>Tạo tài khoản mới</Button>
+                <Button className="max-w-40 mx-auto mt-3 text-white font-bold bg-green-600">Tạo tài khoản mới</Button>
             </Card>
 
             <div className="max-w-xs text-center text-sm">
-                <Link href='#' className="hover:underline text-black text-sm font-bold">Tạo trang</Link> dành cho người nổi tiếng, thương hiệu hoặc doanh nghiệp.
+                <Link href='#' className="hover:underline text-sm font-bold">Tạo trang</Link> dành cho người nổi tiếng, thương hiệu hoặc doanh nghiệp.
             </div>
             
           </div>
