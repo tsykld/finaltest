@@ -34,6 +34,7 @@ export default function HomePost() {
       console.log('Failed to save new post to localStorage:', err);
     }
     reset();
+    setInput('')
   };
 
     return (
