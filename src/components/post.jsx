@@ -17,12 +17,8 @@ const PostList = ({ newPost }) => {
   useEffect(() => {
     try {
       setLoading(true);
-      const savedPosts = JSON.parse(localStorage.getItem('posts'));
-      if (savedPosts) {
-        setPosts([...savedPosts, ...initialPosts]);
-      } else {
-        setPosts(initialPosts)
-      }
+      const savedPosts = JSON.parse(localStorage.getItem('posts')) || [];
+      setPosts([...savedPosts, ...initialPosts]);
       setLoading(false);
     } catch (err) {
       setError('Failed to load posts from localStorage');
@@ -32,8 +28,8 @@ const PostList = ({ newPost }) => {
   }, []);
 
   useEffect(() => {
-    if (newPost) {
-      setPosts(prevPosts => [newPost, ...prevPosts]);
+    if (newPost && newPost.length) {
+      setPosts(prevPosts => [newPost[0], ...prevPosts]);
     }
   }, [newPost]);
 
@@ -63,7 +59,7 @@ const PostList = ({ newPost }) => {
 
     const updatedPosts = posts.map(post => {
       if (post.id === postId) {
-        return { ...post, comments: [...post.comments, { user: 'Linh Tran', comment, avatar: 'https://i.pinimg.com/564x/4c/e8/4f/4ce84f6ba5fbc225191135ed4461b17b.jpg' }] };
+        return { ...post, comments: [...post.comments, { user: 'Linh Tran', comment, avatar: 'https://i.pinimg.com/564x/9f/55/a9/9f55a91576f08e9e7713b89124d0bce3.jpg' }] };
       }
       return post;
     });
@@ -137,7 +133,7 @@ const PostList = ({ newPost }) => {
             }}
           >
             <div className='flex justify-evenly mt-4 mb-3'>
-              <Avatar isBordered src='https://i.pinimg.com/564x/4c/e8/4f/4ce84f6ba5fbc225191135ed4461b17b.jpg' />
+              <Avatar isBordered src='https://i.pinimg.com/564x/9f/55/a9/9f55a91576f08e9e7713b89124d0bce3.jpg' />
               <Input 
                 name="comment" 
                 placeholder="Write a comment..." 

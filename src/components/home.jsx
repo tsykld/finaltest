@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Card, Button, Avatar, Input, Popover, PopoverTrigger, PopoverContent, Tabs, Tab } from '@nextui-org/react';
 import { useForm } from 'react-hook-form';
 import PostList from './post';
@@ -8,33 +8,42 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 export default function HomePost() {
   const { register, handleSubmit, reset } = useForm();
-  const [newPost, setNewPost] = useState(null);
+  const [newPost, setNewPost] = useState([]);
   const [input, setInput] = useState('')
 
   const handleInputChange = (event) => {
     setInput(event.target.value)
   }
 
-  const onSubmit = data => {
+  useEffect(() => {
+    try {
+      const storedPosts = JSON.parse(localStorage.getItem('posts')) || [];
+      setNewPost(storedPosts);
+    } catch (error) {
+      console.error('Failed to load posts from localStorage:', error);
+    }
+  }, []);
+
+  const onSubmit = (data) => {
     const post = {
-      id: Date.now(),  
+      id: Date.now(),
       avatar: 'https://i.pinimg.com/564x/9f/55/a9/9f55a91576f08e9e7713b89124d0bce3.jpg',
       name: 'Linh Tran',
       time: 'Just now',
       content: data.content,
       photo: data.photo,
       comments: [],
-      likes: 0
+      likes: 0,
     };
-    setNewPost(post);
+    const updatedPosts = [post, ...newPost];
+    setNewPost(updatedPosts);
     try {
-      const existingPosts = JSON.parse(localStorage.getItem('posts')) || [];
-      localStorage.setItem('posts', JSON.stringify([post, ...existingPosts]));
-    } catch (err) {
-      console.log('Failed to save new post to localStorage:', err);
+      localStorage.setItem('posts', JSON.stringify(updatedPosts));
+    } catch (error) {
+      console.error('Failed to save posts to localStorage:', error);
     }
     reset();
-    setInput('')
+    setInput('');
   };
 
     return (
@@ -65,5 +74,4 @@ export default function HomePost() {
         </div>
         
     )
-
 }

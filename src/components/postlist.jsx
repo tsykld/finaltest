@@ -81,7 +81,7 @@ export const posts = [
               avatar: 'https://i.pinimg.com/564x/ea/8b/06/ea8b06307f2f6f0a6f6041d3f492d013.jpg' 
             },
             {  
-              user: 'Andy Brown', 
+              user: 'Andy Baily', 
               comment: 'Our home', 
               avatar: 'https://i.pinimg.com/564x/8f/ba/fb/8fbafb98572fdbe3d4fc2151ace1f285.jpg' 
             }
